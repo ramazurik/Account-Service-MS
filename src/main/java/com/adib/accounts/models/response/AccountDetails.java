@@ -1,6 +1,6 @@
 package com.adib.accounts.models.response;
 
-
+import com.adib.accounts.common.AccountTypeEnum;
 import lombok.*;
 
 @Getter
@@ -11,10 +11,6 @@ import lombok.*;
 public class AccountDetails {
 
     private String accountNumber;
-
-    private String accountType;
-
+    private AccountTypeEnum accountType;
     private Double accountBalance;
-
-
 }

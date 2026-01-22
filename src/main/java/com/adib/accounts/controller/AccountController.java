@@ -1,9 +1,12 @@
 package com.adib.accounts.controller;
 
 
+import com.adib.accounts.models.request.UpdateAccountRequest;
 import com.adib.accounts.models.response.AccountDetails;
 import com.adib.accounts.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,25 +18,25 @@ public class AccountController {
 
     @GetMapping("/{accountNumber}")
     public AccountDetails getAccountByAccountNumber(@PathVariable("accountNumber") String accountNumber) {
-
         return accountService.getAccountByAccountNumber(accountNumber);
 
     }
-
     @PostMapping("/")
-    public String createAccount(@RequestBody AccountDetails accountDetails) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public AccountDetails createAccount(@RequestBody AccountDetails accountDetails) {
         accountService.createAccount(accountDetails);
-        return "Account created successfully";
+        return  accountDetails;
+    }
+    //added
+    @PutMapping("/{accountNumber}")
+    public AccountDetails updateAccountType(@RequestBody UpdateAccountRequest updateAccountRequest, @PathVariable("accountNumber") String accountNumber) {
+
+        return accountService.updateAccountType(updateAccountRequest, accountNumber);
     }
 
     @DeleteMapping("/{accountNumber}")
-    public String deleteAccount(@PathVariable String accountNumber) {
-        boolean deleted = accountService.deleteAccount(accountNumber);
-
-        if (deleted) {
-            return "Account deleted successfully";
-        } else {
-            return "Account not found";
-        }
+    public ResponseEntity<Void> deleteAccount(@PathVariable String accountNumber) {
+        accountService.deleteAccount(accountNumber);
+        return ResponseEntity.noContent().build();
     }
 }

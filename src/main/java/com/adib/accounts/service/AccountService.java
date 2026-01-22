@@ -1,5 +1,6 @@
 package com.adib.accounts.service;
 
+import com.adib.accounts.models.request.UpdateAccountRequest;
 import com.adib.accounts.models.response.AccountDetails;
 
 public interface AccountService {
@@ -8,6 +9,7 @@ public interface AccountService {
 
     void createAccount(AccountDetails accountDetails);
 
-    boolean deleteAccount(String accountNumber);
+    AccountDetails updateAccountType(UpdateAccountRequest updateAccountRequest, String accountNumber);
+    void deleteAccount(String accountNumber);
 
 }

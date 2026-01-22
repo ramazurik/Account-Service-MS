@@ -1,5 +1,6 @@
 package com.adib.accounts.repository;
 
+import com.adib.accounts.common.AccountTypeEnum;
 import com.adib.accounts.models.response.AccountDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,26 +17,17 @@ public class AccountRepository {
 
     public AccountRepository() {
 
-        AccountDetails accountDetails = new AccountDetails();
-        accountDetails.setAccountBalance(10000.00);
-        accountDetails.setAccountNumber("123");
-        accountDetails.setAccountType("SAVING");
+        AccountDetails acc1 = new AccountDetails("123", AccountTypeEnum.SAVING, 10000.0);
+        AccountDetails acc2 = new AccountDetails("456", AccountTypeEnum.CURRENT, 20000.0);
+        AccountDetails acc3 = new AccountDetails("789", AccountTypeEnum.TD, 30000.0);
+        AccountDetails acc4 = new AccountDetails("204", AccountTypeEnum.GHINA, 40000.0);
 
-        AccountDetails accountDetails2 = new AccountDetails();
-        accountDetails2.setAccountBalance(20000.00);
-        accountDetails2.setAccountNumber("456");
-        accountDetails2.setAccountType("CHECKING");
-
-        AccountDetails accountDetails3 = new AccountDetails();
-        accountDetails3.setAccountBalance(30000.00);
-        accountDetails3.setAccountNumber("789");
-        accountDetails3.setAccountType("CREDIT");
-
-        accountList.add(accountDetails);
-        accountList.add(accountDetails2);
-        accountList.add(accountDetails3);
-
+        accountList.add(acc1);
+        accountList.add(acc2);
+        accountList.add(acc3);
+        accountList.add(acc4);
     }
+
 
     public AccountDetails searchAccountByAccountId(String accountNumber) {
 
@@ -56,13 +48,28 @@ public class AccountRepository {
     public void createAccount(AccountDetails accountDetails) {
         accountList.add(accountDetails);
     }
-    public boolean deleteAccount(String accountNumber) {
+
+    public AccountDetails updateAccountType(String accountNumber, AccountTypeEnum accountType, Double accountBalance) {
+
+        // for (AccountDetails acc : accountList) {
+        //   if (acc.getAccountNumber().equals(accountNumber)) {
+        //     acc.setAccountType(accountType);
+        //   return acc;
+        //}
+        //}
+
+        return null;
+    }
+
+    public void deleteAccount(String accountNumber) {
         for (AccountDetails acc : accountList) {
             if (acc.getAccountNumber().equals(accountNumber)) {
                 accountList.remove(acc);
-                return true;
+                return;
             }
         }
-        return false;
-}
+        throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Invalid account number"
+        );}
 }
