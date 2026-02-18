@@ -1,4 +1,4 @@
-package com.adib.accounts.repository;
+package com.adib.accounts.persistence.repository;
 
 import com.adib.accounts.common.AccountTypeEnum;
 import com.adib.accounts.models.response.AccountDetails;

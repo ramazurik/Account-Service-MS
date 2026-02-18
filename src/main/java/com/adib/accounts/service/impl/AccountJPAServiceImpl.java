@@ -1,12 +1,12 @@
 
 package com.adib.accounts.service.impl;
 
-import com.adib.accounts.persistence.entity.AccountDetailsEntity;
 import com.adib.accounts.mapper.AccountDetailsMapper;
 import com.adib.accounts.models.request.UpdateAccountRequest;
 import com.adib.accounts.models.response.AccountDetails;
+import com.adib.accounts.persistence.entity.AccountDetailsEntity;
 import com.adib.accounts.persistence.repository.AccountDetailsJpaRepository;
-
+import com.adib.accounts.service.AccountJPAService;
 import com.adib.accounts.service.AccountService;
 import com.adib.accounts.utils.AccountNumberGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
-public class AccountServiceImpl implements AccountService {
+public class AccountJPAServiceImpl implements AccountJPAService {
 
     @Autowired
     private AccountDetailsJpaRepository accountRepo;
@@ -32,8 +32,13 @@ public class AccountServiceImpl implements AccountService {
     public void createAccount(AccountDetails accountDetails) {
         accountDetails.setAccountNumber(AccountNumberGenerator.generateAccountNumber());
         AccountDetailsEntity entity = AccountDetailsMapper.toEntity(accountDetails);
+        //map request model with entity model and save entity using jparepo
+
         accountRepo.save(entity);
+
     }
+
+
 
     @Override
     public AccountDetails updateAccountType(UpdateAccountRequest request, String accountNumber) {
